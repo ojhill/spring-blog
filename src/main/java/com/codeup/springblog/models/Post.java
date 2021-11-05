@@ -1,6 +1,7 @@
 package com.codeup.springblog.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -12,6 +13,12 @@ public class Post {
     private String title;
     @Column(columnDefinition = "TEXT",nullable = false)
     private String body;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<Post> postList;
+
+    public Post() {
+    }
 
     public long getId() {
         return id;

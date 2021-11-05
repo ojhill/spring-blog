@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog edit</title>
+</head>
+<body>
+    <h1>Edit Post</h1>
+    <form th:method="POST">
+        <div>
+            <label for="title">Title</label>
+            <br>
+
+        <input name="title" type="text" placeholder="Enter Blog Post Title" th:value"${post.title}">
+        </div>
+        <div>Body</div>
+        <textarea name="body" id="body" cols="30" rows="10" placeholder="Enter Blog Content" th:text="${post.body}">
+    </form>
+</body>
+</html>
