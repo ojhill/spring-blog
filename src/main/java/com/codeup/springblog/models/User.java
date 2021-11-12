@@ -1,31 +1,47 @@
 package com.codeup.springblog.models;
 
-import javax.persistence.*;
 
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 25)
     private String username;
-    @Column(columnDefinition = "TEXT", nullable = false)
+
+    @Column(nullable = false)
     private String email;
-    @Column(columnDefinition = "TEXT", nullable = false)
+
+    @Column(nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Post> posts;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<Ad> ads;
+
+    public User(long id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
     public User() {
     }
 
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
     }
 
     public long getId() {
@@ -59,5 +75,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-}
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+}
